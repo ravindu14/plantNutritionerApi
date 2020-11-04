@@ -30,6 +30,12 @@ export default class ProductController implements Controller {
       authMiddleware,
       this.getAllProducts
     );
+
+    this.router.get(
+      `${this.path}/get-by-deficiency`,
+      authMiddleware,
+      this.getAllProductsByDeficiency
+    );
   }
 
   //save product
@@ -84,6 +90,31 @@ export default class ProductController implements Controller {
     const { researchCenter } = request.query;
 
     const products = await this.product.find({ researchCenter });
+
+    if (products && products.length > 0) {
+      response.status(200).json({
+        success: true,
+        data: {
+          products
+        }
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+        data: {
+          products: []
+        }
+      });
+    }
+  }
+
+  private getAllProductsByDeficiency = async (
+    request: express.Request,
+    response: express.Response
+  ) => {
+    const { researchCenter, deficiency } = request.query;
+
+    const products = await this.product.find({ researchCenter, deficiency });
 
     if (products && products.length > 0) {
       response.status(200).json({
