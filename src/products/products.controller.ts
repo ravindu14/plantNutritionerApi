@@ -83,6 +83,7 @@ export default class ProductController implements Controller {
     }
   };
 
+  //get all products
   private getAllProducts = async (
     request: express.Request,
     response: express.Response
@@ -108,6 +109,7 @@ export default class ProductController implements Controller {
     }
   }
 
+  //get all products by deficiency
   private getAllProductsByDeficiency = async (
     request: express.Request,
     response: express.Response

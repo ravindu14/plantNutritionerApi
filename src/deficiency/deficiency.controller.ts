@@ -58,6 +58,7 @@ export default class DeficiencyController implements Controller {
     }
   };
 
+  //get all deficiency
   private getAllDeficiency = async (
     request: express.Request,
     response: express.Response

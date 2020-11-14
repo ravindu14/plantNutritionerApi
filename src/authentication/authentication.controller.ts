@@ -43,6 +43,7 @@ export default class AuthenticationController implements Controller {
     // this.router.put(`${this.path}/profile`, authMiddleware, this.updateUser);
   }
 
+  //signIn users
   private signIn = async (
     { body: { username, password } }: express.Request,
     response: express.Response,
@@ -120,6 +121,7 @@ export default class AuthenticationController implements Controller {
     }
   };
 
+  //get single user details
   private getUser = async (
     request: express.Request,
     response: express.Response,
@@ -175,6 +177,7 @@ export default class AuthenticationController implements Controller {
   //   }
   // };
 
+  //get token
   private createToken({ _id, username }: User): TokenData {
     const expiresIn = 31536000;
     const dataStoredInToken: DataInToken = {

@@ -6,7 +6,8 @@ import authMiddleware from "../shared/middleware/auth.middleware";
 import researchModel from "./research.model";
 
 import { ResearchDto } from "./research.dto";
-import { ResearchAlreadyExistException, ResearchDeficiencyAlreadyExistsException, ResearchCreationFailedException } from './research.exception'
+import { ResearchAlreadyExistException, ResearchNotFoundException, ResearchDeficiencyAlreadyExistsException, ResearchCreationFailedException } from './research.exception'
+import { nextTick } from "process";
 
 export default class ResearchController implements Controller {
   public router = express.Router();
@@ -29,6 +30,12 @@ export default class ResearchController implements Controller {
       `${this.path}/get-all`,
       authMiddleware,
       this.getAllResearches
+    );
+
+    this.router.get(
+      `${this.path}/get-research`,
+      authMiddleware,
+      this.getSingleResearch
     );
 
     this.router.get(
@@ -108,6 +115,29 @@ export default class ResearchController implements Controller {
     }
   }
 
+  //get single research by research center and deficiency
+  private getSingleResearch = async (
+    request: express.Request,
+    response: express.Response,
+    next: express.NextFunction
+  ) => {
+    const { researchCenter, deficiency } = request.query;
+
+    const researches = await this.research.findOne({ researchCenter, deficiency });
+
+    if (researches) {
+      response.status(200).json({
+        success: true,
+        data: {
+          researches
+        }
+      });
+    } else {
+      next(new ResearchNotFoundException())
+    }
+  }
+
+  //get new research Id
   private getNewResearchId = async (
     request: express.Request,
     response: express.Response

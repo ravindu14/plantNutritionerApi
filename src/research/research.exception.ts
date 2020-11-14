@@ -27,5 +27,14 @@ export class ResearchCreationFailedException extends HttpException {
   }
 }
 
+export class ResearchNotFoundException extends HttpException {
+  constructor() {
+    super(
+      400,
+      "Research not found."
+    );
+  }
+}
+
 
 
