@@ -134,7 +134,7 @@ export default class VerificationController implements Controller {
       response.status(200).json({
         success: true,
         data: {
-          researches: []
+          verifications: []
         }
       });
     }
