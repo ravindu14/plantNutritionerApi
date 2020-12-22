@@ -17,3 +17,12 @@ export class VerificationNotFoundException extends HttpException {
     );
   }
 }
+
+export class BlockchainTransactionFailedException extends HttpException {
+  constructor() {
+    super(
+      400,
+      "Blockchain transaction failed"
+    );
+  }
+}

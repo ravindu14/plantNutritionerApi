@@ -5,6 +5,7 @@ import validationMiddleware from "../shared/middleware/validation.middleware";
 import authMiddleware from "../shared/middleware/auth.middleware";
 import verificationModel from "./verification.model";
 import { FailToUpdateVerificationException, VerificationNotFoundException } from "./verification.exceptions";
+import { VerificationRequestTransaction, VerificationResponseTransaction } from "./verification.middleware";
 
 import { VerificationDto } from "./verification.dto";
 
@@ -18,17 +19,21 @@ export default class VerificationController implements Controller {
   }
 
   private initializeRoutes() {
+    // farmer request verification
     this.router.post(
       `${this.path}/save`,
       authMiddleware,
       validationMiddleware(VerificationDto),
+      VerificationRequestTransaction,
       this.saveOrUpdateVerification
     );
 
+    // researcher confirm verification
     this.router.put(
       `${this.path}/update`,
       authMiddleware,
       validationMiddleware(VerificationDto),
+      VerificationResponseTransaction,
       this.saveOrUpdateVerification
     );
 
